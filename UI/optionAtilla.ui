@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>optionAtillaWindow</class>
+ <widget class="QMainWindow" name="optionAtillaWindow">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1033</width>
+    <height>870</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>OptionAtilla</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QGroupBox" name="groupCriteria">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>1</y>
+      <width>871</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Criteria</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>20</y>
+       <width>63</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_10">
+      <item>
+       <widget class="QLabel" name="labelStrikePercent">
+        <property name="text">
+         <string>Strike (%)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelMinExpiry">
+        <property name="text">
+         <string>Expiry (Min)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelMaxExpiry">
+        <property name="text">
+         <string>Expiry (Max)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QPushButton" name="pushButtonFetch">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>20</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>FETCH</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelNumOfOptions">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>52</y>
+       <width>81</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>No. of Options 
+No. of Expiries</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonCompute">
+     <property name="geometry">
+      <rect>
+       <x>660</x>
+       <y>80</y>
+       <width>201</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Compute</string>
+     </property>
+    </widget>
+    <widget class="QProgressBar" name="progressBarFetch">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>110</y>
+       <width>851</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>376</x>
+       <y>22</y>
+       <width>72</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="labelDelta">
+        <property name="text">
+         <string>Max Delta (%)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelMinTheta">
+        <property name="text">
+         <string>Min Theta</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelGamma">
+        <property name="text">
+         <string>Gamma (bps)</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>460</x>
+       <y>20</y>
+       <width>51</width>
+       <height>74</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QSpinBox" name="spinDelta">
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="value">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinMinTheta">
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="minimum">
+         <number>-100</number>
+        </property>
+        <property name="maximum">
+         <number>9999</number>
+        </property>
+        <property name="value">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinGamma">
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="maximum">
+         <number>9999</number>
+        </property>
+        <property name="value">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>62</width>
+       <height>71</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="labelEnv">
+        <property name="text">
+         <string>Environment</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelCurr">
+        <property name="text">
+         <string>Currency</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelObjective">
+        <property name="text">
+         <string>Objective</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>80</x>
+       <y>20</y>
+       <width>71</width>
+       <height>74</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <widget class="QComboBox" name="comboEnv"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboCurr"/>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboObjective"/>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>535</x>
+       <y>23</y>
+       <width>104</width>
+       <height>65</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <item>
+       <widget class="QCheckBox" name="checkPutNeutral">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Put neutral        </string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkCallNeutral">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Call neutral        </string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkVega">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Positive Vega     </string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>665</x>
+       <y>24</y>
+       <width>71</width>
+       <height>42</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
+      <item>
+       <widget class="QCheckBox" name="checkLongCall">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Long Call </string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkLongPut">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Long Put </string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>25</y>
+       <width>49</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_7">
+      <item>
+       <widget class="QLabel" name="labelMaxUnit">
+        <property name="text">
+         <string>Max Unit</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="labelMaxTotal">
+        <property name="text">
+         <string>Max Total</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>820</x>
+       <y>22</y>
+       <width>39</width>
+       <height>48</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_8">
+      <item>
+       <widget class="QSpinBox" name="spinMaxUnit">
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="value">
+         <number>5</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinMaxTotal">
+        <property name="readOnly">
+         <bool>false</bool>
+        </property>
+        <property name="value">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>20</y>
+       <width>39</width>
+       <height>74</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_9">
+      <item>
+       <widget class="QSpinBox" name="spinBoxStrikePercent">
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBoxMinExpiry">
+        <property name="value">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="spinBoxMaxExpiry">
+        <property name="value">
+         <number>10</number>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBoxAccount">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>0</y>
+      <width>291</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Account</string>
+    </property>
+    <widget class="QTableWidget" name="tableAccount">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>161</width>
+       <height>121</height>
+      </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QTableWidget" name="tableResults">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>140</y>
+      <width>811</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="rowCount">
+     <number>1</number>
+    </property>
+    <property name="columnCount">
+     <number>8</number>
+    </property>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <row/>
+    <column>
+     <property name="text">
+      <string>Net Income</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Premium</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Total Fees</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Margin</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Delta</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Gamma</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Vega</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <column>
+     <property name="text">
+      <string>Theta</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </column>
+    <item row="0" column="0">
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="0" column="1">
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="0" column="2">
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="0" column="3">
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="0" column="4">
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="0" column="5">
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="0" column="6">
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+    <item row="0" column="7">
+     <property name="text">
+      <string>0</string>
+     </property>
+     <property name="textAlignment">
+      <set>AlignTrailing|AlignVCenter</set>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
