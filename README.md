@@ -1,2 +1,4 @@
 # optionAtilla
 Structural Option Scalping
+
+

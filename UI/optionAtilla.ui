@@ -9,12 +9,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1033</width>
-    <height>870</height>
+    <width>1245</width>
+    <height>879</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>OptionAtilla</string>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(177, 177, 177);
+color: rgb(0, 0, 0);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QGroupBox" name="groupCriteria">
@@ -22,7 +29,7 @@
      <rect>
       <x>0</x>
       <y>1</y>
-      <width>871</width>
+      <width>1031</width>
       <height>141</height>
      </rect>
     </property>
@@ -65,11 +72,14 @@
     <widget class="QPushButton" name="pushButtonFetch">
      <property name="geometry">
       <rect>
-       <x>290</x>
-       <y>20</y>
+       <x>920</x>
+       <y>110</y>
        <width>75</width>
        <height>23</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(100, 100, 100);</string>
      </property>
      <property name="text">
       <string>FETCH</string>
@@ -94,7 +104,7 @@ No. of Expiries</string>
       <rect>
        <x>660</x>
        <y>80</y>
-       <width>201</width>
+       <width>91</width>
        <height>23</height>
       </rect>
      </property>
@@ -107,15 +117,18 @@ No. of Expiries</string>
       <rect>
        <x>10</x>
        <y>110</y>
-       <width>851</width>
+       <width>911</width>
        <height>23</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(0, 255, 0);</string>
      </property>
      <property name="value">
       <number>0</number>
      </property>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>376</x>
@@ -148,7 +161,7 @@ No. of Expiries</string>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>460</x>
@@ -160,6 +173,10 @@ No. of Expiries</string>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
        <widget class="QSpinBox" name="spinDelta">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
         <property name="readOnly">
          <bool>false</bool>
         </property>
@@ -170,6 +187,10 @@ No. of Expiries</string>
       </item>
       <item>
        <widget class="QSpinBox" name="spinMinTheta">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
         <property name="readOnly">
          <bool>false</bool>
         </property>
@@ -186,6 +207,10 @@ No. of Expiries</string>
       </item>
       <item>
        <widget class="QSpinBox" name="spinGamma">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
         <property name="readOnly">
          <bool>false</bool>
         </property>
@@ -199,7 +224,7 @@ No. of Expiries</string>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -212,7 +237,7 @@ No. of Expiries</string>
       <item>
        <widget class="QLabel" name="labelEnv">
         <property name="text">
-         <string>Environment</string>
+         <string>Environmnt</string>
         </property>
        </widget>
       </item>
@@ -232,28 +257,78 @@ No. of Expiries</string>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>80</x>
        <y>20</y>
-       <width>71</width>
+       <width>90</width>
        <height>74</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QComboBox" name="comboEnv"/>
+       <widget class="QComboBox" name="comboEnv">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(85, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Test</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Prod</string>
+         </property>
+        </item>
+       </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboCurr"/>
+       <widget class="QComboBox" name="comboCurr">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>ETH</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>BTC</string>
+         </property>
+        </item>
+       </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="comboObjective"/>
+       <widget class="QComboBox" name="comboObjective">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Min Cost</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Max Gamma</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Max Theta</string>
+         </property>
+        </item>
+       </widget>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>535</x>
@@ -304,7 +379,7 @@ No. of Expiries</string>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>665</x>
@@ -342,7 +417,7 @@ No. of Expiries</string>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>760</x>
@@ -368,7 +443,7 @@ No. of Expiries</string>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>820</x>
@@ -380,6 +455,10 @@ No. of Expiries</string>
      <layout class="QVBoxLayout" name="verticalLayout_8">
       <item>
        <widget class="QSpinBox" name="spinMaxUnit">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
         <property name="readOnly">
          <bool>false</bool>
         </property>
@@ -390,6 +469,10 @@ No. of Expiries</string>
       </item>
       <item>
        <widget class="QSpinBox" name="spinMaxTotal">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
         <property name="readOnly">
          <bool>false</bool>
         </property>
@@ -400,7 +483,7 @@ No. of Expiries</string>
       </item>
      </layout>
     </widget>
-    <widget class="QWidget" name="">
+    <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
        <x>240</x>
@@ -412,6 +495,10 @@ No. of Expiries</string>
      <layout class="QVBoxLayout" name="verticalLayout_9">
       <item>
        <widget class="QSpinBox" name="spinBoxStrikePercent">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
         <property name="value">
          <number>10</number>
         </property>
@@ -419,6 +506,10 @@ No. of Expiries</string>
       </item>
       <item>
        <widget class="QSpinBox" name="spinBoxMinExpiry">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
         <property name="value">
          <number>0</number>
         </property>
@@ -426,6 +517,10 @@ No. of Expiries</string>
       </item>
       <item>
        <widget class="QSpinBox" name="spinBoxMaxExpiry">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+        </property>
         <property name="value">
          <number>10</number>
         </property>
@@ -433,201 +528,302 @@ No. of Expiries</string>
       </item>
      </layout>
     </widget>
+    <widget class="QPushButton" name="pushButtonSelect">
+     <property name="geometry">
+      <rect>
+       <x>760</x>
+       <y>80</y>
+       <width>101</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Select</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkPositions">
+     <property name="geometry">
+      <rect>
+       <x>867</x>
+       <y>20</y>
+       <width>121</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>Exisiting Positions</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBoxSpread">
+     <property name="geometry">
+      <rect>
+       <x>950</x>
+       <y>40</y>
+       <width>42</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(255, 255, 255);
+color: rgb(0, 0, 0);</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>5</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="labelSpread">
+     <property name="geometry">
+      <rect>
+       <x>884</x>
+       <y>40</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Spread (bps)</string>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="checkPositions_2">
+     <property name="geometry">
+      <rect>
+       <x>868</x>
+       <y>64</y>
+       <width>121</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>Double Fee</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButtonConnect">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>20</y>
+       <width>91</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(100, 100, 100);</string>
+     </property>
+     <property name="text">
+      <string>Connect</string>
+     </property>
+    </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBoxAccount">
+   <widget class="QTableView" name="tableAccount">
     <property name="geometry">
      <rect>
-      <x>870</x>
+      <x>1040</x>
       <y>0</y>
-      <width>291</width>
-      <height>141</height>
+      <width>201</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>1021</width>
+      <height>91</height>
      </rect>
     </property>
     <property name="title">
-     <string>Account</string>
+     <string>Results</string>
     </property>
-    <widget class="QTableWidget" name="tableAccount">
+    <widget class="QTableView" name="tableResults">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>20</y>
-       <width>161</width>
-       <height>121</height>
+       <width>1011</width>
+       <height>61</height>
       </rect>
+     </property>
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
     </widget>
    </widget>
-   <widget class="QTableWidget" name="tableResults">
+   <widget class="QPushButton" name="pushButtonExecute">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>140</y>
-      <width>811</width>
-      <height>61</height>
+      <x>160</x>
+      <y>820</y>
+      <width>151</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="rowCount">
-     <number>1</number>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
     </property>
-    <property name="columnCount">
-     <number>8</number>
+    <property name="text">
+     <string>Build Selected Positions</string>
     </property>
-    <attribute name="verticalHeaderVisible">
-     <bool>false</bool>
-    </attribute>
-    <row/>
-    <column>
-     <property name="text">
-      <string>Net Income</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Premium</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Total Fees</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Margin</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Delta</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Gamma</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Vega</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </column>
-    <column>
-     <property name="text">
-      <string>Theta</string>
-     </property>
-     <property name="font">
-      <font>
-       <weight>75</weight>
-       <bold>true</bold>
-      </font>
-     </property>
-    </column>
-    <item row="0" column="0">
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignTrailing|AlignVCenter</set>
-     </property>
-    </item>
-    <item row="0" column="1">
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignTrailing|AlignVCenter</set>
-     </property>
-    </item>
-    <item row="0" column="2">
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignTrailing|AlignVCenter</set>
-     </property>
-    </item>
-    <item row="0" column="3">
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignTrailing|AlignVCenter</set>
-     </property>
-    </item>
-    <item row="0" column="4">
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignTrailing|AlignVCenter</set>
-     </property>
-    </item>
-    <item row="0" column="5">
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignTrailing|AlignVCenter</set>
-     </property>
-    </item>
-    <item row="0" column="6">
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignTrailing|AlignVCenter</set>
-     </property>
-    </item>
-    <item row="0" column="7">
-     <property name="text">
-      <string>0</string>
-     </property>
-     <property name="textAlignment">
-      <set>AlignTrailing|AlignVCenter</set>
-     </property>
-    </item>
+   </widget>
+   <widget class="QPushButton" name="pushButtonLiquidate">
+    <property name="geometry">
+     <rect>
+      <x>700</x>
+      <y>820</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
+    </property>
+    <property name="text">
+     <string>Close All At Market Price</string>
+    </property>
+   </widget>
+   <widget class="QTableView" name="tableSelections">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>260</y>
+      <width>581</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonDisplay">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>820</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
+    </property>
+    <property name="text">
+     <string>Display Payoff</string>
+    </property>
+   </widget>
+   <widget class="QTableView" name="tableSelections_2">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>260</y>
+      <width>641</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonClose">
+    <property name="geometry">
+     <rect>
+      <x>1050</x>
+      <y>820</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
+    </property>
+    <property name="text">
+     <string>Shutdown</string>
+    </property>
+   </widget>
+   <widget class="QTableView" name="tableViewSelectOrders">
+    <property name="geometry">
+     <rect>
+      <x>11</x>
+      <y>680</y>
+      <width>581</width>
+      <height>121</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableView" name="tableViewCloseOrders">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>680</y>
+      <width>641</width>
+      <height>121</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonClearSelectionOrders">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>820</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
+    </property>
+    <property name="text">
+     <string>Cancel All Orders</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonCancelLiquidateOrders">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>820</y>
+      <width>141</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
+    </property>
+    <property name="text">
+     <string>Cancel All Orders</string>
+    </property>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
