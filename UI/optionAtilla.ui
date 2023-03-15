@@ -275,12 +275,12 @@ color: rgb(0, 0, 0);</string>
         </property>
         <item>
          <property name="text">
-          <string>Test</string>
+          <string>TEST</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Prod</string>
+          <string>PROD</string>
          </property>
         </item>
        </widget>
@@ -677,12 +677,12 @@ color: rgb(0, 0, 0);</string>
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButtonExecute">
+   <widget class="QPushButton" name="pushButtonTrade">
     <property name="geometry">
      <rect>
-      <x>160</x>
+      <x>190</x>
       <y>820</y>
-      <width>151</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -690,15 +690,15 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(100, 100, 100);</string>
     </property>
     <property name="text">
-     <string>Build Selected Positions</string>
+     <string>Trade</string>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButtonLiquidate">
     <property name="geometry">
      <rect>
-      <x>700</x>
+      <x>760</x>
       <y>820</y>
-      <width>141</width>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
@@ -706,7 +706,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(100, 100, 100);</string>
     </property>
     <property name="text">
-     <string>Close All At Market Price</string>
+     <string>Liquidate</string>
     </property>
    </widget>
    <widget class="QTableView" name="tableSelections">
@@ -728,9 +728,9 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="pushButtonDisplay">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>80</x>
       <y>820</y>
-      <width>131</width>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
@@ -760,7 +760,7 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="pushButtonClose">
     <property name="geometry">
      <rect>
-      <x>1050</x>
+      <x>1100</x>
       <y>820</y>
       <width>81</width>
       <height>31</height>
@@ -793,12 +793,12 @@ color: rgb(0, 0, 0);</string>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonClearSelectionOrders">
+   <widget class="QPushButton" name="pushButtonClearSelection">
     <property name="geometry">
      <rect>
-      <x>320</x>
+      <x>290</x>
       <y>820</y>
-      <width>151</width>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
@@ -806,15 +806,15 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(100, 100, 100);</string>
     </property>
     <property name="text">
-     <string>Cancel All Orders</string>
+     <string>Clear Selection</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonCancelLiquidateOrders">
+   <widget class="QPushButton" name="pushButtonCancelOrders">
     <property name="geometry">
      <rect>
-      <x>870</x>
+      <x>400</x>
       <y>820</y>
-      <width>141</width>
+      <width>101</width>
       <height>31</height>
      </rect>
     </property>
@@ -822,7 +822,23 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(100, 100, 100);</string>
     </property>
     <property name="text">
-     <string>Cancel All Orders</string>
+     <string>Cancel Open</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonClearTrades">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>820</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
+    </property>
+    <property name="text">
+     <string>Clear Trades</string>
     </property>
    </widget>
   </widget>
