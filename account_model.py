@@ -1,5 +1,5 @@
 from PyQt6 import QtCore
- 
+from account_data import AccountData
 
 class AccountModel(QtCore.QAbstractTableModel): 
     def __init__(self, parent=None, *args): 
