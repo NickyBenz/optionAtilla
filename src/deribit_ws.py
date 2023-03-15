@@ -56,7 +56,9 @@ class Deribit_WS(QtCore.QObject):
                     self.authenticated = True
         else:
             if "params" in response and "channel" in response["params"]:
-                print(response["params"]["data"])
+                channel = response["params"]["channel"]
+                if channel.startswith("user.portfolio."):
+                    self.controller.onAccountData(response["params"]["data"])
 
     def error(self, error_code):
         print("error code: {}".format(error_code))

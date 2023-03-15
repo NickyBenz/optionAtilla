@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1245</width>
+    <width>1329</width>
     <height>879</height>
    </rect>
   </property>
@@ -629,13 +629,13 @@ color: rgb(0, 0, 0);</string>
      </property>
     </widget>
    </widget>
-   <widget class="QTableView" name="tableAccount">
+   <widget class="QTableView" name="tableViewAccount">
     <property name="geometry">
      <rect>
       <x>1040</x>
       <y>0</y>
-      <width>201</width>
-      <height>251</height>
+      <width>281</width>
+      <height>671</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -644,6 +644,12 @@ color: rgb(0, 0, 0);</string>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
    </widget>
    <widget class="QGroupBox" name="groupBox_2">
     <property name="geometry">
@@ -709,7 +715,7 @@ color: rgb(0, 0, 0);</string>
      <string>Liquidate</string>
     </property>
    </widget>
-   <widget class="QTableView" name="tableSelections">
+   <widget class="QTableView" name="tableViewSelections">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -741,12 +747,12 @@ color: rgb(0, 0, 0);</string>
      <string>Display Payoff</string>
     </property>
    </widget>
-   <widget class="QTableView" name="tableSelections_2">
+   <widget class="QTableView" name="tableViewPositions">
     <property name="geometry">
      <rect>
       <x>600</x>
       <y>260</y>
-      <width>641</width>
+      <width>431</width>
       <height>411</height>
      </rect>
     </property>
@@ -783,12 +789,12 @@ color: rgb(0, 0, 0);</string>
      </rect>
     </property>
    </widget>
-   <widget class="QTableView" name="tableViewCloseOrders">
+   <widget class="QTableView" name="tableViewTrades">
     <property name="geometry">
      <rect>
       <x>600</x>
       <y>680</y>
-      <width>641</width>
+      <width>721</width>
       <height>121</height>
      </rect>
     </property>
@@ -845,5 +851,22 @@ color: rgb(0, 0, 0);</string>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>pushButtonClose</sender>
+   <signal>clicked()</signal>
+   <receiver>optionAtillaWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1140</x>
+     <y>835</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>664</x>
+     <y>439</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

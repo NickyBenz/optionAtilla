@@ -10,7 +10,11 @@ class AccountData:
 		self.maintenanceMargin = 0
 		self.withdrawableFunds = 0
 		self.PnL = 0
-		self.rows = 9
+		self.delta = 0
+		self.gamma = 0
+		self.vega = 0
+		self.theta = 0
+		self.rows = 13
 		self.cols = 2
 	
 	def clear(self):
@@ -23,10 +27,15 @@ class AccountData:
 		self.maintenanceMargin = 0
 		self.withdrawableFunds = 0
 		self.PnL = 0
-		self.rows = 9
+		self.delta = 0
+		self.gamma = 0
+		self.vega = 0
+		self.theta = 0
+		self.rows = 13
 		self.cols = 2
 
 	def update(self, dict_obj):
+		print(dict_obj)
 		self.currency = dict_obj['currency']
 		self.equity = dict_obj["equity"]
 		self.projectedInitialMargin = dict_obj["projected_initial_margin"]
@@ -36,6 +45,10 @@ class AccountData:
 		self.maintenanceMargin = dict_obj["maintenance_margin"]
 		self.withdrawableFunds = dict_obj["available_withdrawal_funds"]
 		self.PnL = dict_obj["total_pl"]
+		self.delta = dict_obj["options_delta"]
+		self.gamma = dict_obj["options_gamma"]
+		self.vega = dict_obj["options_vega"]
+		self.theta = dict_obj["options_theta"]
 		
 	def getRows(self):
 		return self.rows
@@ -63,6 +76,14 @@ class AccountData:
 				return "avlble_funds"
 			elif i == 8:
 				return "PnL"
+			elif i == 9:
+				return "Delta"
+			elif i == 10:
+				return "Gamma"
+			elif i == 11:
+				return "Vega"
+			elif i == 12:
+				return "Theta"
 			else:
 				return ""
 		else:
@@ -84,5 +105,13 @@ class AccountData:
 				return self.withdrawableFunds
 			elif i == 8:
 				return self.PnL
+			elif i == 9:
+				return self.delta
+			elif i == 10:
+				return self.gamma
+			elif i == 11:
+				return self.vega
+			elif i == 12:
+				return self.theta
 			else:
 				return 0
