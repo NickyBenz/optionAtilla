@@ -730,6 +730,15 @@ color: rgb(0, 0, 0);</string>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderStretchLastSection">
+     <bool>true</bool>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="pushButtonDisplay">
     <property name="geometry">
@@ -762,6 +771,18 @@ color: rgb(0, 0, 0);</string>
     <property name="styleSheet">
      <string notr="true"/>
     </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderStretchLastSection">
+     <bool>true</bool>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderHighlightSections">
+     <bool>true</bool>
+    </attribute>
    </widget>
    <widget class="QPushButton" name="pushButtonClose">
     <property name="geometry">

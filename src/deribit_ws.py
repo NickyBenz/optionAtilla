@@ -9,9 +9,8 @@ class Deribit_WS(QtCore.QObject):
         self.ids = { "default": 1,
                      "authenticate": 2, 
                      "accounts": 3,
-                     "order": 4,
-                     "trades": 5,
-                     "tickers": 6
+                     "changes": 4,
+                     "tickers": 5,
                     }
         self.authenticated = False
         self.controller = None
@@ -59,6 +58,8 @@ class Deribit_WS(QtCore.QObject):
                 channel = response["params"]["channel"]
                 if channel.startswith("user.portfolio."):
                     self.controller.onAccountData(response["params"]["data"])
+                if channel.startswith("user.changes."):
+                    self.controller.onPositionData(response["data"]["positions"])
 
     def error(self, error_code):
         print("error code: {}".format(error_code))
@@ -71,7 +72,16 @@ class Deribit_WS(QtCore.QObject):
         else:
             return self.client.sendTextMessage(json.dumps(request))
 
-    def buy(self, instrument_name, amount, order_type, reduce_only, price=None, post_only=None):
+    def limit_buy_aggressive(self, instrument_name, amount, reduce_only, price):
+        self.buy_raw(instrument_name, amount, "limit", reduce_only, price, False)
+    
+    def buy_market(self, instrument_name, amount, reduce_only):
+        self.buy_raw(instrument_name, amount, "market", reduce_only, None, False)
+
+    def limit_buy_passive(self, instrument_name, amount, reduce_only, price):
+        self.buy_raw(instrument_name, amount, "limit", reduce_only, price, True)
+
+    def buy_raw(self, instrument_name, amount, order_type, reduce_only, price, post_only):
         options = {
             "instrument_name" : instrument_name,
             "amount" : amount,
@@ -88,9 +98,17 @@ class Deribit_WS(QtCore.QObject):
         self.json["id"] = self.ids["default"]
         self.json["params"] = options
         return self.call_api(self.json)
+    
+    def limit_sell_aggressive(self, instrument_name, amount, reduce_only, price):
+        self.sell_raw(instrument_name, amount, "limit", reduce_only, price, False)
+    
+    def sell_market(self, instrument_name, amount, reduce_only):
+        self.sell_raw(instrument_name, amount, "market", reduce_only, None, False)
 
-    def sell(self, instrument_name, amount, order_type, reduce_only,
-            price=None, post_only=None):
+    def limit_sell_passive(self, instrument_name, amount, reduce_only, price):
+        self.sell_raw(instrument_name, amount, "limit", reduce_only, price, True)
+
+    def sell_raw(self, instrument_name, amount, order_type, reduce_only, price, post_only):
         options = {
             "instrument_name" : instrument_name,
             "amount" : amount,
@@ -133,26 +151,19 @@ class Deribit_WS(QtCore.QObject):
         self.json["id"] = self.ids["default"]
         return self.call_api(self.json)
 
+    def change_summary(self, currency):
+        options = {"channels" : ["user.changes.option." + currency + ".100ms"]}
+        self.json["method"] = "private/subscribe"
+        self.json["id"] = self.ids["changes"]
+        self.json["params"] = options
+        return self.call_api(self.json)
+    
     def account_summary(self, currency):
         options = {"channels" : ["user.portfolio." + currency]}
         self.json["method"] = "private/subscribe"
         self.json["id"] = self.ids["accounts"]
         self.json["params"] = options
         return self.call_api(self.json)
-
-    def user_trades(self, currency):
-       options = {"channels" : ["user.trades.option." + currency + ".100ms"]}
-       self.json["method"] = "private/subscribe"
-       self.json["id"] = self.ids["trades"]
-       self.json["params"] = options
-       return self.call_api(self.json)
-
-    def user_orders(self, currency):
-       options = {"channels" : ["user.orders.option." + currency + ".100ms"]}
-       self.json["method"] = "private/subscribe"
-       self.json["id"] = self.ids["orders"]
-       self.json["params"] = options
-       return self.call_api(self.json)
 
     def ticker(self, instrument_name):
         options = {"channels" : ["ticker." + instrument_name + ".100ms"]}
@@ -161,5 +172,22 @@ class Deribit_WS(QtCore.QObject):
         self.json["params"] = options
         return self.call_api(self.json)
 
+    def unsubscribe_all_public(self):
+        self.json["method"] = "public/unsubscribe_all"
+        options = {}
+        self.json["id"] = self.ids["default"]
+        self.json["params"] = options
+        return self.call_api(self.json)
+    
+    def unsubscribe_all_private(self):
+        self.json["method"] = "private/unsubscribe_all"
+        options = {}
+        self.json["id"] = self.ids["default"]
+        self.json["params"] = options
+        return self.call_api(self.json)
+    
     def close(self):
-        self.client.close();
+        self.unsubscribe_all_private()
+        self.unsubscribe_all_public()
+        print("Closing websocket")
+        self.client.close()
