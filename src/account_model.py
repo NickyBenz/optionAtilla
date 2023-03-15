@@ -12,11 +12,11 @@ class AccountModel(QtCore.QAbstractTableModel):
         
      
     def rowCount(self, parent=QtCore.QModelIndex()):
-        return accountData.getRows()
+        return self.accountData.getRows()
 
         
     def columnCount(self, parent=QtCore.QModelIndex()):
-        return accountData.getCols()
+        return self.accountData.getCols()
 
         
     def data(self, index, role=QtCore.Qt.DisplayRole):
@@ -26,7 +26,3 @@ class AccountModel(QtCore.QAbstractTableModel):
             return '{0}'.format(self.accountData.getData(i, j))
         else:
             return QtCore.QVariant()
-    
-	
-	def flags(self, index):
-        return QtCore.Qt.ItemIsEnabled
