@@ -9,6 +9,13 @@ if __name__ == '__main__':
     window = QMainWindow()
     ui = Ui_optionAtillaWindow()
     ui.setupUi(window)
+    ui.pushButtonClearSelection.setEnabled(False)
+    ui.pushButtonClearTrades.setEnabled(False)
+    ui.pushButtonCancelOrders.setEnabled(False)
+    ui.pushButtonCompute.setEnabled(False)
+    ui.pushButtonDisplay.setEnabled(False)
+    ui.pushButtonFetch.setEnabled(False)
+    ui.pushButtonLiquidate.setEnabled
     atilla = Atilla(app, "config\\config.ini")
     atilla.setWindow(ui)
     window.show()

@@ -60,6 +60,9 @@ class Deribit_WS(QtCore.QObject):
                     self.controller.onAccountData(response["params"]["data"])
                 if channel.startswith("user.changes."):
                     self.controller.onPositionData(response["data"]["positions"])
+                if channel.startswith("ticker."):
+                    print(response)
+                    self.controller.onMarketData(response["params"]["data"])
 
     def error(self, error_code):
         print("error code: {}".format(error_code))
