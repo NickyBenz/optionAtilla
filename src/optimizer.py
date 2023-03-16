@@ -66,6 +66,10 @@ class Optimizer:
 
     def _calculate(self, option_names, deltas, gammas, vegas, thetas, bids, asks, bidamounts, askamounts, calls, puts, strikes):
         N = len(option_names)
+
+        if N == 0:
+            return None
+        
         x = cvx.Variable((1, N), integer=True)
         y = cvx.Variable((1, N), integer=True)
         p = cvx.Variable((1, N), integer=True)
