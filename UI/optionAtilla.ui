@@ -593,7 +593,7 @@ color: rgb(0, 0, 0);</string>
       <string>Spread (bps)</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="checkPositions_2">
+    <widget class="QCheckBox" name="checkDoubleFee">
      <property name="geometry">
       <rect>
        <x>868</x>
@@ -683,22 +683,6 @@ color: rgb(0, 0, 0);</string>
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="pushButtonTrade">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>820</y>
-      <width>91</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Execute</string>
-    </property>
-   </widget>
    <widget class="QTableView" name="tableViewSelections">
     <property name="geometry">
      <rect>
@@ -723,22 +707,6 @@ color: rgb(0, 0, 0);</string>
     <attribute name="verticalHeaderVisible">
      <bool>false</bool>
     </attribute>
-   </widget>
-   <widget class="QPushButton" name="pushButtonDisplay">
-    <property name="geometry">
-     <rect>
-      <x>60</x>
-      <y>820</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Display Payoff</string>
-    </property>
    </widget>
    <widget class="QTableView" name="tableViewPositions">
     <property name="geometry">
@@ -771,10 +739,10 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="pushButtonClose">
     <property name="geometry">
      <rect>
-      <x>1100</x>
-      <y>820</y>
-      <width>81</width>
-      <height>31</height>
+      <x>1140</x>
+      <y>810</y>
+      <width>121</width>
+      <height>41</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -784,89 +752,77 @@ color: rgb(0, 0, 0);</string>
      <string>Shutdown</string>
     </property>
    </widget>
-   <widget class="QTableView" name="tableViewSelectOrders">
+   <widget class="QTableView" name="tableViewOpenOrders">
     <property name="geometry">
      <rect>
       <x>11</x>
       <y>680</y>
-      <width>581</width>
+      <width>1251</width>
       <height>121</height>
      </rect>
     </property>
    </widget>
-   <widget class="QTableView" name="tableViewTrades">
+   <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>600</x>
-      <y>680</y>
-      <width>661</width>
-      <height>121</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonClearSelection">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
+      <x>60</x>
       <y>820</y>
-      <width>101</width>
-      <height>31</height>
+      <width>415</width>
+      <height>25</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Clear Selection</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonClearTrades">
-    <property name="geometry">
-     <rect>
-      <x>960</x>
-      <y>820</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Clear Trades</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonPositions">
-    <property name="geometry">
-     <rect>
-      <x>660</x>
-      <y>820</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Query Positions</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonRefresh">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>820</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Refresh</string>
-    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="pushButtonDisplay">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(100, 100, 100);</string>
+       </property>
+       <property name="text">
+        <string>Display Payoff</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonClearSelection">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(100, 100, 100);</string>
+       </property>
+       <property name="text">
+        <string>Clear Selection</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonRefresh">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(100, 100, 100);</string>
+       </property>
+       <property name="text">
+        <string>Refresh</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonTrade">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(100, 100, 100);</string>
+       </property>
+       <property name="text">
+        <string>Execute</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonPositions">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(100, 100, 100);</string>
+       </property>
+       <property name="text">
+        <string>Query Positions</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>

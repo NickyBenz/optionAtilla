@@ -10,6 +10,6 @@ if __name__ == '__main__':
     ui = Ui_optionAtillaWindow()
     ui.setupUi(window)
     atilla = Atilla(app, "config\\config.ini")
-    atilla.setWindow(ui)
+    atilla.setWindow(ui, window)
     window.show()
     sys.exit(app.exec())

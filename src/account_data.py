@@ -94,7 +94,7 @@ class AccountData:
 				return self.delta
 			elif i == 8:
 				return self.gamma
-			elif i == 0:
+			elif i == 9:
 				return self.vega
 			elif i == 10:
 				return self.theta

@@ -1,11 +1,10 @@
 class OptimiseParams:
     def __init__(self):
         self.minimize = True
-        self.objectives = ["Min Cost", "Max Gamma", "Max Theta"]
-        self.currObjective = 0
-        self.maxDelta = 0.01
+        self.currObjective = "Min Cost"
+        self.maxDeltaPct = 0.01
         self.minTheta = 5
-        self.minGamma = 0.001
+        self.minGammaBps = 0.001
         self.putNeutral = True
         self.callNeutral = True
         self.positiveVega = True
@@ -14,7 +13,8 @@ class OptimiseParams:
         self.maxUnit = 5
         self.maxTotal = 15
         self.usePositions = True
-        self.maxSpread = 0.001
+        self.maxSpreadBps = 0.001
+        self.contract_size = 1
         self.doubleFee = True
 
     @staticmethod
