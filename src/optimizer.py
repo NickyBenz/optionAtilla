@@ -101,7 +101,7 @@ class Optimizer:
         if self.params.usePositions:
             for pos in self.positions:
                 idx = option_names.index(pos.op.name)
-                sizes[0, idx] = pos.size
+                sizes[0, idx] = pos.size  / self.params.contract_size
         cons.append(p == np.asarray(sizes))
 
         for i in range(N):

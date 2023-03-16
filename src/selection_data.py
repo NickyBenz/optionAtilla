@@ -31,6 +31,14 @@ class SelectionData:
 				return "AskPrice"
 			elif i == 5:
 				return "AskAmount"
+			elif i == 6:
+				return "Delta"
+			elif i == 7:
+				return "Gamma"
+			elif i == 8:
+				return "Vega"
+			elif i == 9:
+				return "Theta"
 			else:
 				return ""
 		else:

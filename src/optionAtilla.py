@@ -179,6 +179,7 @@ class Atilla(QtCore.QObject):
 		self.onPositionCreate(results)
 
 	def fetch(self):
+		self.window.progressBarFetch.setValue(0)
 		self.fetches = []
 		curr = self.window.comboCurr.currentText()
 		pctStrike = self.window.spinBoxStrikePercent.value() / 100.0
