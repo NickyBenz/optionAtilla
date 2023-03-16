@@ -5,6 +5,8 @@ from account_data import AccountData
 from position_data import PositionData
 from selection_data import SelectionData
 from account_model import AccountModel
+from optimise_params import OptimiseParams
+from optimizer import Optimizer
 from position_model import PositionModel
 from selection_model import SelectionModel
 from deribit_rest import RestClient
@@ -12,7 +14,7 @@ from deribit_ws import Deribit_WS
 from PyQt6 import QtCore
 
 Option = namedtuple('Option', ['name', 'kind', 'expiry', 'strike', 'delta', 'gamma', 'vega', 'theta', 
-			       'bid_price', 'bid_amount', 'ask_price', 'ask_amount', 'size'])
+			       'bid_price', 'bid_amount', 'ask_price', 'ask_amount'])
 
 class Atilla(QtCore.QObject):
 	def __init__(self, parent, config_file):
@@ -21,7 +23,9 @@ class Atilla(QtCore.QObject):
 		self.currency = None
 		self.counter = 0
 		self.subscriptions = 0
+		self.subscribed = set()
 		self.market_cache = {}
+		self.fetches = []
 		self.account = AccountData()
 		self.positions = PositionData()
 		self.selections = SelectionData()
@@ -47,7 +51,9 @@ class Atilla(QtCore.QObject):
 		self.window.pushButtonConnect.clicked.connect(self.connect)
 		self.window.pushButtonClose.clicked.connect(self.close)
 		self.window.pushButtonFetch.clicked.connect(self.fetch)
+		self.window.pushButtonPositions.clicked.connect(self.queryPos)
 		QtCore.QMetaObject.connectSlotsByName(self)
+	
 
 	def close(self):
 		self.disconnect()
@@ -55,6 +61,7 @@ class Atilla(QtCore.QObject):
 
 	def authenticate(self):
 		self.client_ws.authenticate()
+		print("sent authenticate request")
 
 	def getChanges(self):
 		curr = self.window.comboCurr.currentText()
@@ -73,9 +80,6 @@ class Atilla(QtCore.QObject):
 		ws_url = self.cfg[key]["ws_url"]
 
 		self.client_rest = RestClient(api_key, api_secret, rest_url)
-		positions = self.client_rest.getpositions(curr, "option")
-		orderres = self.client_rest.getopenorders(curr, "option")
-		self.onPositionData(positions)
 		self.client_ws = Deribit_WS(self.parent)
 		self.client_ws.connect(self, api_key, api_secret, ws_url)
 		QtCore.QTimer.singleShot(3000, self.authenticate)
@@ -84,39 +88,37 @@ class Atilla(QtCore.QObject):
 
 	def onMarketData(self, mkt_data):
 		instr = mkt_data['instrument_name']
-		now = dt.today()
 
-		if instr not in self.market_cache:
-			expiry = self.timestamp_to_datetime(mkt_data['expiration_timestamp'])
-			greeks = mkt_data['greeks']
-			self.market_cache[instr] = 	Option(instr, 
-		                        				1 if mkt_data['option_type'] == 'call' else -1,
-												(expiry - now).days, mkt_data['strike'], 
-												greeks['delta'], greeks['gamma'], greeks['vega'], greeks['theta'],
-												mkt_data['best_bid_price'], mkt_data['best_bid_amount'],
-												mkt_data['best_ask_price'], mkt_data['best_ask_amount'], 0)
-		else:
-			greeks = mkt_data['greeks']
-			self.market_cache[instr]._replace(delta = greeks['delta'], gamma = greeks['gamma'], vega=greeks['vega'], theta = greeks['theta'],
+		if instr not in self.subscribed:
+			self.subscribed.add(instr)
+			self.window.progressBarFetch.setVisible(False)
+			self.window.progressBarFetch.setValue(len(self.subscribed) * 100.0 / self.counter)
+			self.window.progressBarFetch.setVisible(True)
+
+		greeks = mkt_data['greeks']
+		self.market_cache[instr]._replace(delta = greeks['delta'], gamma = greeks['gamma'], vega=greeks['vega'], theta = greeks['theta'],
 				                              bid_price = mkt_data['best_bid_price'], bid_amount = mkt_data['best_bid_amount'],
 											  ask_price = mkt_data['best_ask_price'], ask_amount = mkt_data['best_ask_amount'])
-		
+		self.window.tableViewSelections.viewport().update()
 		
 	def onAccountData(self, dict_obj):
 		self.account.update(dict_obj)
 		self.window.tableViewAccount.viewport().update()
 
-
-	def onPositionData(self, positions):
+	def onPositionCreate(self, positions):
 		self.position_model.beginResetModel()
-		self.positions.update(positions)
+		self.positions.add(positions)
 		self.position_model.endResetModel()
 		self.window.tableViewPositions.resizeColumnsToContents()
 		self.window.tableViewPositions.viewport().update()
 
+
+	def onPositionData(self, positions):
+		self.positions.update(positions)
+		self.window.tableViewPositions.viewport().update()
+
 	def disconnect(self):
 		if self.client_ws is not None:
-			self.client_ws.disconnect()
 			self.client_ws.close()
 			self.client_ws = None
 
@@ -126,38 +128,53 @@ class Atilla(QtCore.QObject):
 		self.account.clear()
 		self.positions.clear()
 		self.market_cache.clear()
+		self.subscribed.clear()
 		self.account_model.endResetModel()
 		self.position_model.endResetModel()
 		self.selection_model.endResetModel()
 		self.counter = 0
 		self.subscriptions = 0
+		self.fetches = []
 
+	def queryPos(self):
+		curr = self.window.comboCurr.currentText()
+		positions = self.client_rest.getpositions(curr, "option")
+		now = dt.today()
+		for pos in positions:
+			name = pos['instrument_name']
+			instr = self.client_rest.getinstrument(name)
+			expiry = self.timestamp_to_datetime(instr['expiration_timestamp'])
+			days_left = (expiry - now).days
+
+			if name not in self.market_cache.keys():
+				self.market_cache[name] = Option(name, instr['option_type'], days_left, instr['strike'], 
+				                                 0,0,0,0,0,0,0,0)
+				self.counter += 1
+				QtCore.QThread.msleep(100)
+				self.client_ws.ticker(name)
+		self.onPositionCreate(positions)
 
 	def fetch(self):
-		
+		self.fetches = []
 		curr = self.window.comboCurr.currentText()
 		pctStrike = self.window.spinBoxStrikePercent.value() / 100.0
 		minExpiry = self.window.spinBoxMinExpiry.value()
 		maxExpiry = self.window.spinBoxMaxExpiry.value()
 		idxPrice = self.client_rest.getindex(curr)
-
-		for pos in self.positions.positions:
-			if pos['instrument_name'] not in self.market_cache:
-				self.client_ws.ticker(pos['instrument_name'])
-
-		self.counter = self.fetchInstruments(curr, idxPrice[curr], pctStrike, minExpiry, maxExpiry) + len(self.positions.positions)
+		now = dt.today()
+		self.queryPos()
+		self.fetchInstruments(now, curr, idxPrice[curr], pctStrike, minExpiry, maxExpiry)
+		self.window.progressBarFetch.setValue(len(self.subscribed) * 100.0 / self.counter)
 
 
 	def timestamp_to_datetime(self, timestamp): 
 		return dt.fromtimestamp(timestamp/1000)
 
 
-	def fetchInstruments(self, curr, idxPrice, pctStrike, minExpiry, maxExpiry):
+	def fetchInstruments(self, now, curr, idxPrice, pctStrike, minExpiry, maxExpiry):
 		instrs = self.client_rest.getinstruments(curr, "option")
 		minStrike = (1.0 - pctStrike) * idxPrice
 		maxStrike = (1.0 + pctStrike) * idxPrice
-		now = dt.today()
-		counter = 0
 
 		for instr in instrs:
 			if instr['strike'] >= minStrike and instr['strike'] <= maxStrike:
@@ -165,7 +182,19 @@ class Atilla(QtCore.QObject):
 				days_left = (self.timestamp_to_datetime(expiry) - now).days
 
 				if days_left >= minExpiry and days_left <= maxExpiry:
-					counter += 1
-					self.client_ws.ticker(instr['instrument_name'])
+					name = instr['instrument_name']
+					if name not in self.market_cache.keys():
+						self.market_cache[name] = Option(name, instr['option_type'], days_left,
+					                                      instr['strike'], 0,0,0,0,0,0,0,0)
+						self.counter += 1
+						QtCore.QThread.msleep(300)
+						self.client_ws.ticker(name)
+						self.fetches.append(self.market_cache[name])
 
-		return counter
+	def create_optimiser_params(self):
+		params = OptimiseParams.create_default()
+
+	def compute(self):
+		params = self.create_optimiser_params()
+			
+

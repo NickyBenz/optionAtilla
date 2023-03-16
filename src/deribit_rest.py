@@ -89,6 +89,15 @@ class RestClient(object):
         }
 
         return self.request("/api/v2/public/get_instruments", options)
+    
+    
+    def getinstrument(self, instr):
+        options = {
+            'instrument_name': instr,
+        }
+
+        return self.request("/api/v2/public/get_instrument", options)
+    
 
     def getindex(self, currency):
         options = {

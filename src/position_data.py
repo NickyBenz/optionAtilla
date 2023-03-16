@@ -1,6 +1,7 @@
 
 class PositionData:
 	def __init__(self):
+		self.keys = {}
 		self.positions = []
 		self.cols = 6
 	
@@ -8,8 +9,20 @@ class PositionData:
 		self.positions = []
 		self.cols = 6
 
-	def update(self, pos):
-		self.positions = pos
+	def add(self, positions):
+		self.keys = {}
+		self.positions = []
+
+		for i, pos in enumerate(positions):
+			name = pos.name
+			self.keys[name] = i
+			self.positions.append(pos)
+
+	def update(self, positions):
+		for pos in positions:
+			name = pos['instrument_name']
+			if name in self.keys:
+				pass
 		
 	def getRows(self):
 		return len(self.positions) + 1
@@ -37,7 +50,7 @@ class PositionData:
 			pos = self.positions[j-1]
 			
 			if i == 0:
-				return pos['instrument_name']
+				return pos['name']
 			elif i == 1:
 				return pos['size']
 			elif i == 2:

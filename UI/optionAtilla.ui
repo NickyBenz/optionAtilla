@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1329</width>
+    <width>1269</width>
     <height>879</height>
    </rect>
   </property>
@@ -577,7 +577,7 @@ color: rgb(0, 0, 0);</string>
       <number>1</number>
      </property>
      <property name="value">
-      <number>5</number>
+      <number>10</number>
      </property>
     </widget>
     <widget class="QLabel" name="labelSpread">
@@ -634,7 +634,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>1040</x>
       <y>0</y>
-      <width>281</width>
+      <width>221</width>
       <height>671</height>
      </rect>
     </property>
@@ -686,7 +686,7 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="pushButtonTrade">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>470</x>
       <y>820</y>
       <width>91</width>
       <height>31</height>
@@ -696,23 +696,7 @@ color: rgb(0, 0, 0);</string>
      <string notr="true">background-color: rgb(100, 100, 100);</string>
     </property>
     <property name="text">
-     <string>Trade</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButtonLiquidate">
-    <property name="geometry">
-     <rect>
-      <x>760</x>
-      <y>820</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Liquidate</string>
+     <string>Execute</string>
     </property>
    </widget>
    <widget class="QTableView" name="tableViewSelections">
@@ -743,7 +727,7 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="pushButtonDisplay">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>60</x>
       <y>820</y>
       <width>101</width>
       <height>31</height>
@@ -815,7 +799,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>600</x>
       <y>680</y>
-      <width>721</width>
+      <width>661</width>
       <height>121</height>
      </rect>
     </property>
@@ -823,7 +807,7 @@ color: rgb(0, 0, 0);</string>
    <widget class="QPushButton" name="pushButtonClearSelection">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>180</x>
       <y>820</y>
       <width>101</width>
       <height>31</height>
@@ -836,26 +820,10 @@ color: rgb(0, 0, 0);</string>
      <string>Clear Selection</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonCancelOrders">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>820</y>
-      <width>101</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Cancel Open</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButtonClearTrades">
     <property name="geometry">
      <rect>
-      <x>880</x>
+      <x>960</x>
       <y>820</y>
       <width>101</width>
       <height>31</height>
@@ -866,6 +834,38 @@ color: rgb(0, 0, 0);</string>
     </property>
     <property name="text">
      <string>Clear Trades</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonPositions">
+    <property name="geometry">
+     <rect>
+      <x>660</x>
+      <y>820</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
+    </property>
+    <property name="text">
+     <string>Query Positions</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButtonRefresh">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>820</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(100, 100, 100);</string>
+    </property>
+    <property name="text">
+     <string>Refresh</string>
     </property>
    </widget>
   </widget>

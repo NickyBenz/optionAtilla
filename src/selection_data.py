@@ -41,12 +41,12 @@ class SelectionData:
 			elif i == 1:
 				return op.size
 			elif i == 2:
-				return pos['delta']
+				return op['bid_amount']
 			elif i == 3:
-				return pos['gamma']
+				return op['bid_price']
 			elif i == 4:
-				return pos['vega']
+				return op['ask_price']
 			elif i == 5:
-				return pos['theta']
+				return op['ask_amount']
 			else:
 				return 0

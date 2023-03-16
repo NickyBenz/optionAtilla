@@ -61,7 +61,6 @@ class Deribit_WS(QtCore.QObject):
                 if channel.startswith("user.changes."):
                     self.controller.onPositionData(response["data"]["positions"])
                 if channel.startswith("ticker."):
-                    print(response)
                     self.controller.onMarketData(response["params"]["data"])
 
     def error(self, error_code):
@@ -70,10 +69,7 @@ class Deribit_WS(QtCore.QObject):
 
     # send an authentication request
     def call_api(self, request):
-        if not self.authenticated:
-            raise ConnectionAbortedError("Unauthenticated WebSocket connection")
-        else:
-            return self.client.sendTextMessage(json.dumps(request))
+        return self.client.sendTextMessage(json.dumps(request))
 
     def limit_buy_aggressive(self, instrument_name, amount, reduce_only, price):
         self.buy_raw(instrument_name, amount, "limit", reduce_only, price, False)
