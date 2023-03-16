@@ -63,6 +63,7 @@ class Atilla(QtCore.QObject):
 		self.window.pushButtonDisplay.clicked.connect(self.display)
 		self.window.pushButtonCompute.clicked.connect(self.compute)
 		self.window.pushButtonRefresh.clicked.connect(self.computeResults)
+		self.window.pushBUttonClearSelection.clicked.connect(self.clearSelections)
 		QtCore.QMetaObject.connectSlotsByName(self)
 	
 
@@ -143,6 +144,7 @@ class Atilla(QtCore.QObject):
 		self.account_model.beginResetModel()
 		self.position_model.beginResetModel()
 		self.selection_model.beginResetModel()
+		self.results_model.beginResetModel()
 		self.account.clear()
 		self.positions.clear()
 		self.market_cache.clear()
@@ -152,6 +154,7 @@ class Atilla(QtCore.QObject):
 		self.account_model.endResetModel()
 		self.position_model.endResetModel()
 		self.selection_model.endResetModel()
+		self.results_model.endResetModel()
 		self.counter = 0
 		self.subscriptions = 0
 		self.fetches = []
@@ -270,6 +273,13 @@ class Atilla(QtCore.QObject):
 		params.maxSpreadBps = self.window.spinBoxSpread.value() / 10000.0
 		params.doubleFee = self.window.checkDoubleFee.isChecked()
 		return params
+
+
+	def clearSelections(self):
+		self.selection_model.beginResetModel()
+		self.selections.update([])
+		self.selection_model.endResetModel()
+
 
 	def compute(self):
 		params = self.create_optimiser_params()

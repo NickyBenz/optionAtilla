@@ -693,7 +693,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>10</x>
       <y>250</y>
-      <width>671</width>
+      <width>641</width>
       <height>421</height>
      </rect>
     </property>
@@ -716,9 +716,9 @@ color: rgb(0, 0, 0);</string>
    <widget class="QTableView" name="tableViewPositions">
     <property name="geometry">
      <rect>
-      <x>690</x>
+      <x>660</x>
       <y>250</y>
-      <width>341</width>
+      <width>371</width>
       <height>421</height>
      </rect>
     </property>
@@ -777,28 +777,12 @@ color: rgb(0, 0, 0);</string>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButtonClearTrades">
-    <property name="geometry">
-     <rect>
-      <x>890</x>
-      <y>820</y>
-      <width>103</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(100, 100, 100);</string>
-    </property>
-    <property name="text">
-     <string>Clear Trades</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
       <x>60</x>
       <y>820</y>
-      <width>541</width>
+      <width>461</width>
       <height>25</height>
      </rect>
     </property>
@@ -843,6 +827,18 @@ color: rgb(0, 0, 0);</string>
        </property>
       </widget>
      </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>820</y>
+      <width>166</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QPushButton" name="pushButtonPositions">
        <property name="styleSheet">
@@ -850,6 +846,16 @@ color: rgb(0, 0, 0);</string>
        </property>
        <property name="text">
         <string>Query Positions</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonClearTrades">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(100, 100, 100);</string>
+       </property>
+       <property name="text">
+        <string>Clear Trades</string>
        </property>
       </widget>
      </item>
