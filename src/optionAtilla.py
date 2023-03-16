@@ -205,6 +205,12 @@ class Atilla(QtCore.QObject):
 		maxStrike = (1.0 + pctStrike) * idxPrice
 
 		for instr in instrs:
+			if instr['option_type'] == 'call' and instr['strike'] < idxPrice:
+				continue
+
+			if instr['option_type'] == 'put' and instr['strike'] > idxPrice:
+				continue
+
 			if instr['strike'] >= minStrike and instr['strike'] <= maxStrike:
 				expiry = instr['expiration_timestamp']
 				days_left = (self.timestamp_to_datetime(expiry) - now).days
@@ -217,19 +223,25 @@ class Atilla(QtCore.QObject):
 						self.counter += 1
 						QtCore.QThread.msleep(300)
 						self.client_ws.ticker(name)
-						self.fetches.append(self.market_cache[name])
+					self.fetches.append(self.market_cache[name])
+					
 
 	def display(self):
 		positions = self.positions.positions
 		oplist = []
-
+		curr = self.window.comboCurr.currentText()
+		
+		contract_size = 1
+		if curr == "BTC":
+			contract_size = 0.1
+		
 		for posit in positions:
 			pos = posit.op
 			op = {'op_type': pos.kind[0],
             		'strike': pos.strike,
             		'tr_type': 'b' if posit.size > 0 else 's',
             		'op_pr': pos.bid_price if posit.size < 0 else pos.ask_price,
-            		'contract': abs(posit.size)}
+            		'contract': abs(int(posit.size / contract_size))}
 			oplist.append(op)
 
 		for posit in self.selections.positions:
@@ -238,10 +250,9 @@ class Atilla(QtCore.QObject):
             		'strike': pos.strike,
             		'tr_type': 'b' if posit.size > 0 else 's',
             		'op_pr': pos.bid_price if posit.size < 0 else pos.ask_price,
-            		'contract': abs(posit.size)}
+            		'contract': abs(int(posit.size / contract_size))}
 			oplist.append(op)
 
-		curr = self.window.comboCurr.currentText()
 		idx_price = self.client_rest.getindex(curr)[curr]
 		opstrat.multi_plotter(spot=idx_price, spot_range=20, op_list=oplist, save=True, file='file.png')
 		viewer = ImageViewer()
@@ -353,6 +364,7 @@ class Atilla(QtCore.QObject):
 				instrs[pos.op.name] += pos.size
 
 		if len(instrs) > 0:
+			print(instrs)
 			res = self.client_rest.getportfoliomargin(curr, instrs)
 			self.results.expiryMargin = res['margin']
 		else:
