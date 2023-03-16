@@ -63,7 +63,7 @@ class Atilla(QtCore.QObject):
 		self.window.pushButtonDisplay.clicked.connect(self.display)
 		self.window.pushButtonCompute.clicked.connect(self.compute)
 		self.window.pushButtonRefresh.clicked.connect(self.computeResults)
-		self.window.pushBUttonClearSelection.clicked.connect(self.clearSelections)
+		self.window.pushButtonClearSelection.clicked.connect(self.clearSelections)
 		QtCore.QMetaObject.connectSlotsByName(self)
 	
 
@@ -193,7 +193,7 @@ class Atilla(QtCore.QObject):
 		self.queryPos()
 		self.fetchInstruments(now, curr, idxPrice[curr], pctStrike, minExpiry, maxExpiry)
 		self.window.progressBarFetch.setValue(len(self.subscribed) * 100.0 / self.counter)
-
+		self.window.labelNumOfOptions.setText(str(self.counter) + " options")
 
 	def timestamp_to_datetime(self, timestamp): 
 		return dt.fromtimestamp(timestamp/1000)

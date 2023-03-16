@@ -762,7 +762,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>11</x>
       <y>679</y>
-      <width>581</width>
+      <width>641</width>
       <height>121</height>
      </rect>
     </property>
@@ -770,9 +770,9 @@ color: rgb(0, 0, 0);</string>
    <widget class="QTableView" name="tableViewPutTrades">
     <property name="geometry">
      <rect>
-      <x>600</x>
+      <x>660</x>
       <y>680</y>
-      <width>661</width>
+      <width>601</width>
       <height>121</height>
      </rect>
     </property>
