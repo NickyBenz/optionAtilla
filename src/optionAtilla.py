@@ -4,6 +4,7 @@ import opstrat
 from account_data import AccountData
 from image_viewer import ImageViewer
 from position_data import PositionData
+from results_data import Results
 from selection_data import SelectionData
 from account_model import AccountModel
 from optimise_params import OptimiseParams
@@ -11,6 +12,7 @@ from optimizer import Optimizer
 from deribit_option import Option
 from deribit_option_position import DeribitPosition
 from position_model import PositionModel
+from results_model import ResultsModel
 from selection_model import SelectionModel
 from deribit_rest import RestClient
 from deribit_ws import Deribit_WS
@@ -29,13 +31,15 @@ class Atilla(QtCore.QObject):
 		self.account = AccountData()
 		self.positions = PositionData()
 		self.selections = SelectionData()
+		self.results = Results()
 		self.account_model = AccountModel(parent)
 		self.position_model = PositionModel(parent)
 		self.selection_model = SelectionModel(parent)
-
+		self.results_model = ResultsModel(parent)
 		self.account_model.update(self.account)
 		self.position_model.update(self.positions)
 		self.selection_model.update(self.selections)
+		self.results_model.update(self.results)
 		
 		self.cfg = configparser.ConfigParser()
 		self.cfg.read(config_file)
@@ -50,6 +54,7 @@ class Atilla(QtCore.QObject):
 		self.mainW = mainW
 		self.window.tableViewAccount.setModel(self.account_model)
 		self.window.tableViewPositions.setModel(self.position_model)
+		self.window.tableViewResults.setModel(self.results_model)
 		self.window.tableViewSelections.setModel(self.selection_model)
 		self.window.pushButtonConnect.clicked.connect(self.connect)
 		self.window.pushButtonClose.clicked.connect(self.close)
@@ -57,6 +62,7 @@ class Atilla(QtCore.QObject):
 		self.window.pushButtonPositions.clicked.connect(self.queryPos)
 		self.window.pushButtonDisplay.clicked.connect(self.display)
 		self.window.pushButtonCompute.clicked.connect(self.compute)
+		self.window.pushButtonRefresh.clicked.connect(self.computeResults)
 		QtCore.QMetaObject.connectSlotsByName(self)
 	
 
@@ -141,6 +147,8 @@ class Atilla(QtCore.QObject):
 		self.positions.clear()
 		self.market_cache.clear()
 		self.subscribed.clear()
+		self.selections.clear()
+		self.results.clear()
 		self.account_model.endResetModel()
 		self.position_model.endResetModel()
 		self.selection_model.endResetModel()
@@ -271,4 +279,75 @@ class Atilla(QtCore.QObject):
 		self.selection_model.endResetModel()
 		self.window.tableViewSelections.resizeColumnsToContents()
 		self.window.tableViewSelections.viewport().update()
+		self.computeResults()
+
+
+	def computeResults(self):
+		positions = []
+		positions.extend(self.positions.positions)
+		positions.extend(self.selections.positions)
+		feeBps = 0.0006 if self.window.checkDoubleFee.isChecked() else 0.0003
+		
+		self.results_model.beginResetModel()
+		self.results.clear()
+		
+		instrs = {}
+		posCheck = self.window.checkPositions.isChecked()
+
+		for pos in positions:
+			self.results.delta += pos.size * pos.op.delta
+			self.results.gamma += pos.size * pos.op.gamma
+			self.results.vega += pos.size * pos.op.vega
+			self.results.theta += pos.size * pos.op.theta
+		
+			if not posCheck and pos in self.positions.positions:
+				continue
+			else:
+				if pos.op.name in instrs:
+					instrs[pos.op.name] += pos.size
+				else:
+					instrs[pos.op.name] = pos.size
+		
+
+		for pos in self.selections.positions:
+			cost = pos.size * (pos.op.bid_price if pos.size < 0 else pos.op.ask_price)
+			self.results.income += cost
+			self.results.fees += min(abs(pos.size * feeBps), abs(cost) * 0.125)
+	
+		self.results.net_income = -self.results.income - self.results.fees
+		curr = self.window.comboCurr.currentText()
+
+		if len(instrs) > 0:
+			res = self.client_rest.getportfoliomargin(curr, instrs)
+			self.results.margin = res['margin']
+		else:
+			self.results.expiryMargin = 0
+
+		minExpiry = 10000000
+		for pos in positions:
+			if pos.op.expiry < minExpiry:
+				minExpiry = pos.op.expiry
+
+		instrs = {}
+		for pos in positions:
+			if pos.op.expiry <= minExpiry:
+				continue
+			
+			if not posCheck and pos in self.positions.positions:
+				continue
+
+			if pos.op.name not in instrs:
+				instrs[pos.op.name] = pos.size
+			else:
+				instrs[pos.op.name] += pos.size
+
+		if len(instrs) > 0:
+			res = self.client_rest.getportfoliomargin(curr, instrs)
+			self.results.expiryMargin = res['margin']
+		else:
+			self.results.expiryMargin = 0
+
+		self.results_model.endResetModel()
+		self.window.tableViewResults.resizeColumnsToContents()
+		self.window.tableViewResults.viewport().update()
 

@@ -17,7 +17,11 @@ class Optimizer:
 
         for pos in self.positions:
             if pos.op.name not in option_dict:
-                option_dict[pos.op.name] = pos.op
+                if self.params.usePositions:
+                    option_dict[pos.op.name] = pos.op
+            else:
+                if not self.params.usePositions:
+                    option_dict.pop(pos.op.name)
 
         option_data = list(option_dict.values())
 
@@ -54,8 +58,9 @@ class Optimizer:
 
         if res is not None:
             for i, op in enumerate(option_data):
-                p = DeribitPosition(op, res[0, i])
-                selections.append(p)
+                if res[0, i] != 0:
+                    p = DeribitPosition(op, res[0, i])
+                    selections.append(p)
 
         return selections
 
@@ -68,7 +73,7 @@ class Optimizer:
         obj = None
 
         if self.params.currObjective == "Min Cost":
-            obj = cvx.Maximize(x@asks + y@bids)
+            obj = cvx.Minimize(x@asks + y@bids)
         elif self.params.currObjective == "Max Gamma":
             obj = cvx.Maximize((x+y+p)@gammas)
         elif self.params.currObjective == "Max Theta":
@@ -79,6 +84,7 @@ class Optimizer:
         cons = [(x+y+p)@deltas <= self.params.maxDeltaPct, 
                 (x+y+p)@deltas >= -self.params.maxDeltaPct]
         cons.append((x+y+p)@gammas >= self.params.minGammaBps)
+        cons.append((x+y+p)@thetas >= self.params.minTheta)
         if self.params.positiveVega: cons.append((x+y+p)@vegas >= 0)
         if self.params.callNeutral: cons.append((x+y+p)@calls == 0)
         if self.params.putNeutral: cons.append((x+y+p)@puts == 0)
@@ -92,9 +98,10 @@ class Optimizer:
         cons.append(cvx.sum(y - cvx.neg(p)) >= -self.params.maxTotal)
         
         sizes = np.zeros((1, N))
-        for pos in self.positions:
-            idx = option_names.index(pos.op.name)
-            sizes[0, idx] = pos.size
+        if self.params.usePositions:
+            for pos in self.positions:
+                idx = option_names.index(pos.op.name)
+                sizes[0, idx] = pos.size
         cons.append(p == np.asarray(sizes))
 
         for i in range(N):

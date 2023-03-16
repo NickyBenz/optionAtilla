@@ -1,6 +1,7 @@
 import time, hashlib, requests, base64, sys, hmac
 from collections import OrderedDict
 import datetime
+import json as jsonparser
 
 class RestClient(object):
     def __init__(self, key, secret, url):
@@ -90,7 +91,17 @@ class RestClient(object):
 
         return self.request("/api/v2/public/get_instruments", options)
     
+    def getportfoliomargin(self, curr, instrs):
+        
+        options = {
+             'currency':curr, 
+             'simulated_positions': jsonparser.dumps(instrs),
+             'add_positions': False
+        }
+
+        return self.request("/api/v2/public/get_portfolio_margins", options)
     
+
     def getinstrument(self, instr):
         options = {
             'instrument_name': instr,
