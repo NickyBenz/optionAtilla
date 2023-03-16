@@ -50,6 +50,7 @@ class Atilla(QtCore.QObject):
 		self.mainW = mainW
 		self.window.tableViewAccount.setModel(self.account_model)
 		self.window.tableViewPositions.setModel(self.position_model)
+		self.window.tableViewSelections.setModel(self.selection_model)
 		self.window.pushButtonConnect.clicked.connect(self.connect)
 		self.window.pushButtonClose.clicked.connect(self.close)
 		self.window.pushButtonFetch.clicked.connect(self.fetch)
@@ -210,22 +211,23 @@ class Atilla(QtCore.QObject):
 		positions = self.positions.positions
 		oplist = []
 
-		for pos in positions:
+		for posit in positions:
+			pos = posit.op
 			op = {'op_type': pos.kind[0],
             		'strike': pos.strike,
-            		'tr_type': 'b' if pos.size > 0 else 's',
-            		'op_pr': pos.bid_price if pos.size < 0 else pos.ask_price,
-            		'contract': abs(pos.size)}
+            		'tr_type': 'b' if posit.size > 0 else 's',
+            		'op_pr': pos.bid_price if posit.size < 0 else pos.ask_price,
+            		'contract': abs(posit.size)}
 			oplist.append(op)
 
-		for pos in self.fetches:
+		for posit in self.selections.positions:
+			pos = posit.op
 			op = {'op_type': pos.kind[0],
             		'strike': pos.strike,
-            		'tr_type': 'b' if pos.size > 0 else 's',
-            		'op_pr': pos.bid_price if pos.size < 0 else pos.ask_price,
-            		'contract': 2}
+            		'tr_type': 'b' if posit.size > 0 else 's',
+            		'op_pr': pos.bid_price if posit.size < 0 else pos.ask_price,
+            		'contract': abs(posit.size)}
 			oplist.append(op)
-			break
 
 		curr = self.window.comboCurr.currentText()
 		idx_price = self.client_rest.getindex(curr)[curr]
@@ -263,4 +265,10 @@ class Atilla(QtCore.QObject):
 	def compute(self):
 		params = self.create_optimiser_params()
 		optim = Optimizer(params, self.fetches, self.positions.positions)
-		optim.compute()
+		selections = optim.compute()
+		self.selection_model.beginResetModel()
+		self.selections.update(selections)
+		self.selection_model.endResetModel()
+		self.window.tableViewSelections.resizeColumnsToContents()
+		self.window.tableViewSelections.viewport().update()
+

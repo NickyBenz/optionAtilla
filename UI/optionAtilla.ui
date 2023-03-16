@@ -133,7 +133,7 @@ No. of Expiries</string>
       <rect>
        <x>376</x>
        <y>22</y>
-       <width>72</width>
+       <width>81</width>
        <height>71</height>
       </rect>
      </property>
@@ -164,7 +164,7 @@ No. of Expiries</string>
     <widget class="QWidget" name="layoutWidget">
      <property name="geometry">
       <rect>
-       <x>460</x>
+       <x>467</x>
        <y>20</y>
        <width>51</width>
        <height>74</height>
@@ -767,7 +767,7 @@ color: rgb(0, 0, 0);</string>
      <rect>
       <x>60</x>
       <y>820</y>
-      <width>415</width>
+      <width>541</width>
       <height>25</height>
      </rect>
     </property>

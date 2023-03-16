@@ -1,5 +1,6 @@
 import cvxpy as cvx
 import numpy as np
+from deribit_option_position import DeribitPosition
 
 class Optimizer:
     def __init__(self, params, fetches, positions):
@@ -47,7 +48,16 @@ class Optimizer:
             puts[i] = min(kind, 0)
             strikes[i] = option_data[i].strike
         
-        self._calculate(list(option_dict.keys()), deltas, gammas, vegas, thetas, bids, asks, bidamounts, askamounts, calls, puts, strikes)
+        res = self._calculate(list(option_dict.keys()), deltas, gammas, vegas, thetas, bids, asks, bidamounts, askamounts, calls, puts, strikes)
+
+        selections = []
+
+        if res is not None:
+            for i, op in enumerate(option_data):
+                p = DeribitPosition(op, res[0, i])
+                selections.append(p)
+
+        return selections
 
     def _calculate(self, option_names, deltas, gammas, vegas, thetas, bids, asks, bidamounts, askamounts, calls, puts, strikes):
         N = len(option_names)
@@ -64,7 +74,7 @@ class Optimizer:
         elif self.params.currObjective == "Max Theta":
             obj = cvx.Maximize((x+y+p)@thetas)
         else:
-            return []
+            return None
         
         cons = [(x+y+p)@deltas <= self.params.maxDeltaPct, 
                 (x+y+p)@deltas >= -self.params.maxDeltaPct]
@@ -81,12 +91,20 @@ class Optimizer:
         cons.append(cvx.sum(x + cvx.pos(p)) <= self.params.maxTotal)
         cons.append(cvx.sum(y - cvx.neg(p)) >= -self.params.maxTotal)
         
-        sizes = list(range(N))
+        sizes = np.zeros((1, N))
         for pos in self.positions:
             idx = option_names.index(pos.op.name)
-            sizes[idx] = pos.size
-
+            sizes[0, idx] = pos.size
         cons.append(p == np.asarray(sizes))
+
+        for i in range(N):
+            cons.append(x[0, i] <= askamounts[i])
+            cons.append(y[0, i] >= -bidamounts[i])
+
         prob = cvx.Problem(objective=obj, constraints=cons)
         prob.solve(verbose=1)
-        return []
+        
+        if prob.status == 'optimal':
+            return (x.value + y.value) * self.params.contract_size
+        else:
+            return None

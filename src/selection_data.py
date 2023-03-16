@@ -1,18 +1,18 @@
 
 class SelectionData:
 	def __init__(self):
-		self.options = []
+		self.positions = []
 		self.cols = 6
 	
 	def clear(self):
-		self.options = []
+		self.positions = []
 		self.cols = 6
 
-	def update(self, opts):
-		self.options = opts
+	def update(self, positions):
+		self.positions = positions
 		
 	def getRows(self):
-		return len(self.options) + 1
+		return len(self.positions) + 1
 		
 	def getCols(self):
 		return self.cols
@@ -34,12 +34,12 @@ class SelectionData:
 			else:
 				return ""
 		else:
-			op = self.options[j-1]
+			op = self.positions[j-1].op
 			
 			if i == 0:
 				return op.name
 			elif i == 1:
-				return op.size
+				return self.positions[j-1].size
 			elif i == 2:
 				return op.bid_amount
 			elif i == 3:
