@@ -165,7 +165,6 @@ class Atilla(QtCore.QObject):
 		now = dt.today()
 		results = []
 		for pos in positions:
-			print(pos)
 			name = pos['instrument_name']
 			instr = self.client_rest.getinstrument(name)
 			expiry = self.timestamp_to_datetime(instr['expiration_timestamp'])
@@ -343,7 +342,6 @@ class Atilla(QtCore.QObject):
 
 		if len(instrs) > 0:
 			res = self.client_rest.getportfoliomargin(curr, instrs)
-			print(res)
 			self.results.margin = res['margin']
 		else:
 			self.results.margin = 0
