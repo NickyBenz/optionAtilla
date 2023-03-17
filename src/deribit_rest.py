@@ -41,12 +41,13 @@ class RestClient(object):
         
         if response.status_code != 200:
             print(response)
-            raise Exception("Wrong response code: {0}".format(response.status_code))
+            return "Wrong response code: {0}".format(response.status_code)
 
         json = response.json()
 
         if "error" in json:
-            raise Exception("Failed: " + json["error"])
+            print(json["error"])
+            return "Failed: " + json["error"]
 
         if "result" in json:
             return json["result"]
@@ -151,3 +152,31 @@ class RestClient(object):
             }
         response=self.request("/api/v2/private/get_positions", options);
         return response
+    
+
+    def buy(self, instrument, quantity, price, postOnly=None, time_in_force="fill_or_kill"):
+        options = {
+            "instrument_name": instrument,
+            "amount": quantity,
+            "price": price,
+            "time_in_force": time_in_force
+        }
+  
+        if postOnly:
+            options["postOnly"] = postOnly
+
+        return self.request("/api/v2/private/buy", options)
+
+
+    def sell(self, instrument, quantity, price, postOnly=None, time_in_force="fill_or_kill"):
+        options = {
+            "instrument_name": instrument,
+            "amount": quantity,
+            "price": price,
+            "time_in_force": time_in_force
+        }
+
+        if postOnly:
+            options["postOnly"] = postOnly
+
+        return self.request("/api/v2/private/sell", options)

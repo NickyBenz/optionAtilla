@@ -92,8 +92,8 @@ class Optimizer:
         if self.params.positiveVega: cons.append((x+y+p)@vegas >= 0)
         if self.params.callNeutral: cons.append((x+y+p)@calls == 0)
         if self.params.putNeutral: cons.append((x+y+p)@puts == 0)
-        if self.params.longPut: cons.append(cvx.multiply(y[:, 0] + x[:, 0] + p[:, 0], puts)@strikes <= 0)
-        if self.params.longCall: cons.append(cvx.multiply(y[:, 0] + x[:, 0] + p[:, 0], calls)@strikes >= 0)
+        if self.params.longPut: cons.append(cvx.multiply(y[0, :] + x[0, :] + p[0, :], puts)@strikes <= 0)
+        if self.params.longCall: cons.append(cvx.multiply(y[0, :] + x[0, :] + p[0, :], calls)@strikes >= 0)
         cons.append(x <= self.params.maxUnit)
         cons.append(x >= 0)
         cons.append(y >= -self.params.maxUnit)
@@ -116,6 +116,6 @@ class Optimizer:
         prob.solve(verbose=1)
         
         if prob.status == 'optimal':
-            return (x.value + y.value) * self.params.contract_size
+            return np.around((x.value + y.value) * self.params.contract_size, 1)
         else:
             return None

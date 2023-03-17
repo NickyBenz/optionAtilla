@@ -198,7 +198,7 @@ color: rgb(0, 0, 0);</string>
          <bool>false</bool>
         </property>
         <property name="minimum">
-         <number>-100</number>
+         <number>-9999</number>
         </property>
         <property name="maximum">
          <number>9999</number>
@@ -216,6 +216,9 @@ color: rgb(0, 0, 0);</string>
         </property>
         <property name="readOnly">
          <bool>false</bool>
+        </property>
+        <property name="minimum">
+         <number>-9999</number>
         </property>
         <property name="maximum">
          <number>9999</number>

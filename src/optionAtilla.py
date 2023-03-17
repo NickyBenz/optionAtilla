@@ -64,6 +64,7 @@ class Atilla(QtCore.QObject):
 		self.window.pushButtonCompute.clicked.connect(self.compute)
 		self.window.pushButtonRefresh.clicked.connect(self.computeResults)
 		self.window.pushButtonClearSelection.clicked.connect(self.clearSelections)
+		self.window.pushButtonTrade.clicked.connect(self.execute)
 		QtCore.QMetaObject.connectSlotsByName(self)
 	
 
@@ -364,7 +365,6 @@ class Atilla(QtCore.QObject):
 				instrs[pos.op.name] += pos.size
 
 		if len(instrs) > 0:
-			print(instrs)
 			res = self.client_rest.getportfoliomargin(curr, instrs)
 			self.results.expiryMargin = res['margin']
 		else:
@@ -373,4 +373,87 @@ class Atilla(QtCore.QObject):
 		self.results_model.endResetModel()
 		self.window.tableViewResults.resizeColumnsToContents()
 		self.window.tableViewResults.viewport().update()
+	
+	def execute(self):
+		if len(self.selections.positions) == 0:
+			print("No positions to execute")
+			return
+		
+		buycalls = {}
+		sellcalls = {}
+		buyputs = {}
+		sellputs = {}
+
+		for pos in self.selections.positions:
+			if pos.op.kind[0] == "c":
+				if pos.size > 0:
+					if pos.op.strike not in buycalls:
+						buycalls[pos.op.strike] = []
+					buycalls[pos.op.strike].append(pos)
+				else:
+					if pos.op.strike not in sellcalls:
+						sellcalls[pos.op.strike] = []
+					sellcalls[pos.op.strike].append(pos)
+			else:
+				if pos.size > 0:
+					if pos.op.strike not in buyputs:
+						buyputs[pos.op.strike] = []
+					buyputs[pos.op.strike].append(pos)
+				else:
+					if pos.op.strike not in sellputs:
+						sellputs[pos.op.strike] = []
+					sellputs[pos.op.strike].append(pos)
+		
+		buycalls = {k: v for k, v in sorted(buycalls.items(), key=lambda item: item[0], reverse=True)}
+		buyputs = {k: v for k, v in sorted(buyputs.items(), key=lambda item: item[0])}
+		sellcalls = {k: v for k, v in sorted(sellcalls.items(), key=lambda item: item[0])}
+		sellputs = {k: v for k, v in sorted(sellputs.items(), key=lambda item: item[0], reverse=True)}
+
+		calls = []
+		puts = []
+
+		for strike in buycalls:
+			calls.extend(buycalls[strike])
+
+		for strike in sellcalls:
+			calls.extend(sellcalls[strike])
+
+		for strike in buyputs:
+			puts.extend(buyputs[strike])
+
+		for strike in sellputs:
+			puts.extend(sellputs[strike])
+
+		self.execOptions(calls)		
+		self.execOptions(puts)
+
+	def execOptions(self, opts):
+		
+		while len(opts) > 0:
+			pos = opts[0]
+			del opts[0]
+			if pos.size > 0:
+				res = self.client_rest.buy(pos.op.name, pos.size, pos.op.ask_price)
+			else:
+				res = self.client_rest.sell(pos.op.name, abs(pos.size), pos.op.bid_price)
+
+			if len(opts) > 0:
+				pos = opts[-1]
+				del opts[-1]
+				
+				if pos.size > 0:
+					res = self.client_rest.buy(pos.op.name, pos.size, pos.op.ask_price)
+				else:
+					res = self.client_rest.sell(pos.op.name, abs(pos.size), pos.op.bid_price)
+
+			if 'trades' in res:
+				print(len(res['trades']))
+			else:
+				print(res)
+
+
+
+
+		
+
 

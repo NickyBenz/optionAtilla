@@ -57,9 +57,15 @@ class Deribit_WS(QtCore.QObject):
             if "params" in response and "channel" in response["params"]:
                 channel = response["params"]["channel"]
                 if channel.startswith("user.portfolio."):
-                    self.controller.onAccountData(response["params"]["data"])
+                    if "data" in response['params']:
+                        self.controller.onAccountData(response["params"]["data"])
                 if channel.startswith("user.changes."):
-                    self.controller.onPositionData(response["data"]["positions"])
+                    if 'data' in response:
+                        data = response['data']
+                        if 'positions' in data:
+                            self.controller.onPositionData(response["data"]["positions"])
+                    else:
+                        print(response)
                 if channel.startswith("ticker."):
                     self.controller.onMarketData(response["params"]["data"])
 

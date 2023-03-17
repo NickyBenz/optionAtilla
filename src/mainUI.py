@@ -85,7 +85,7 @@ class Ui_optionAtillaWindow(object):
         self.spinMinTheta.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "color: rgb(0, 0, 0);")
         self.spinMinTheta.setReadOnly(False)
-        self.spinMinTheta.setMinimum(-100)
+        self.spinMinTheta.setMinimum(-9999)
         self.spinMinTheta.setMaximum(9999)
         self.spinMinTheta.setProperty("value", 5)
         self.spinMinTheta.setObjectName("spinMinTheta")
@@ -94,6 +94,7 @@ class Ui_optionAtillaWindow(object):
         self.spinGamma.setStyleSheet("background-color: rgb(255, 255, 255);\n"
 "color: rgb(0, 0, 0);")
         self.spinGamma.setReadOnly(False)
+        self.spinGamma.setMinimum(-9999)
         self.spinGamma.setMaximum(9999)
         self.spinGamma.setProperty("value", 100)
         self.spinGamma.setObjectName("spinGamma")
