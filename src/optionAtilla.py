@@ -89,10 +89,9 @@ class Atilla(QtCore.QObject):
 
 		api_key = self.cfg[key]["api_key"]
 		api_secret = self.cfg[key]["api_secret"]
-		rest_url = self.cfg[key]["rest_url"]
 		ws_url = self.cfg[key]["ws_url"]
 
-		self.client_rest = RestClient(api_key, api_secret, rest_url)
+		self.client_rest = RestClient(api_key, api_secret, False if key == "PROD" else True)
 		self.client_ws = Deribit_WS(self.parent)
 		self.client_ws.connect(self, api_key, api_secret, ws_url)
 		QtCore.QTimer.singleShot(3000, self.authenticate)
@@ -166,6 +165,7 @@ class Atilla(QtCore.QObject):
 		now = dt.today()
 		results = []
 		for pos in positions:
+			print(pos)
 			name = pos['instrument_name']
 			instr = self.client_rest.getinstrument(name)
 			expiry = self.timestamp_to_datetime(instr['expiration_timestamp'])
@@ -189,10 +189,11 @@ class Atilla(QtCore.QObject):
 		pctStrike = self.window.spinBoxStrikePercent.value() / 100.0
 		minExpiry = self.window.spinBoxMinExpiry.value()
 		maxExpiry = self.window.spinBoxMaxExpiry.value()
-		idxPrice = self.client_rest.getindex(curr)
+		response = self.client_rest.getindex(curr)
+		idxPrice = response[curr]
 		now = dt.today()
 		self.queryPos()
-		self.fetchInstruments(now, curr, idxPrice[curr], pctStrike, minExpiry, maxExpiry)
+		self.fetchInstruments(now, curr, idxPrice, pctStrike, minExpiry, maxExpiry)
 		self.window.progressBarFetch.setValue(len(self.subscribed) * 100.0 / self.counter)
 		self.window.labelNumOfOptions.setText(str(self.counter) + " options")
 
@@ -342,9 +343,10 @@ class Atilla(QtCore.QObject):
 
 		if len(instrs) > 0:
 			res = self.client_rest.getportfoliomargin(curr, instrs)
+			print(res)
 			self.results.margin = res['margin']
 		else:
-			self.results.expiryMargin = 0
+			self.results.margin = 0
 
 		minExpiry = 10000000
 		for pos in positions:

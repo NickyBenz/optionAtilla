@@ -1,83 +1,20 @@
-import time, hashlib, requests, base64, sys, hmac
-from collections import OrderedDict
 import datetime
-import json as jsonparser
+import json as json
+import ccxt 
 
 class RestClient(object):
-    def __init__(self, key, secret, url):
+    def __init__(self, key, secret, Test=True):
         self.key = key
         self.secret = secret
-        self.session = requests.Session()
-        self.url = url
+        self.session = ccxt.deribit({'apiKey': key, 'secret': secret})
+        self.session.set_sandbox_mode(Test)
+        self.session.quoteJsonNumbers = False
 
-    def request(self, action, data):
-        response = None
-        if action.startswith("/api/v2/private/"):           #if private need AUTH
-            if self.key is None or self.secret is None:
-                raise Exception("Key or secret empty")
-        
-            tstamp = int(time.time()* 1000)
-            nonce = str(datetime.datetime.now())
-            
-            def converter(data):
-                key = data[0]
-                value = data[1]
-                if isinstance(value, list):
-                    return '='.join([str(key), ''.join(value)])
-                else:
-                    return '='.join([str(key), str(value)])
+    def call_api(self, command, access, options):
+        response = self.session.fetch2(command, access, params=options)
+        return response
 
-            items = map(converter, data.items())
-            signature_string = '&'.join(items)
-            if len(signature_string)>0:
-                signature_string ='?'+signature_string;
-
-            sig=self.generatesignature(action+signature_string,tstamp,nonce);   
-            
-            Authorization="deri-hmac-sha256 id=%s,ts=%s,sig=%s,nonce=%s" %(self.key,tstamp,sig,nonce);
-            response = self.session.get(self.url + action, params=data, headers={'Authorization': Authorization}, verify=True)
-        else:                                               #if public , no need AUTH
-            response = self.session.get(self.url + action, params=data, verify=True)
-        
-        if response.status_code != 200:
-            print(response)
-            return "Wrong response code: {0}".format(response.status_code)
-
-        json = response.json()
-
-        if "error" in json:
-            print(json["error"])
-            return "Failed: " + json["error"]
-
-        if "result" in json:
-            return json["result"]
-        elif "message" in json:
-            return json["message"]
-        else:
-            return "Ok"
-
-    def generatesignature(self,url,tstamp,nonce):
-        """
-        To generate signature
-        input:
-            url: string [eg: [eg: /api/v2/private/xxxx]
-            tstamp: int 
-            nonce: string [any string for encryption]
-        return:
-            string [signature]
-            
-        """
-        RequestData = 'GET' + "\n" + url + "\n" + "" + "\n";
-        StringToSign = str(tstamp) + "\n" + nonce + "\n" + RequestData;
-
-        signature = hmac.new(
-            bytes(self.secret, "latin-1"),
-            msg=bytes(StringToSign, "latin-1"),
-            digestmod=hashlib.sha256
-        ).hexdigest().lower()
-        return signature;
-
-    def getinstruments(self,currency, kind):
+    def getinstruments(self, currency, kind):
         '''
         to get available trading instruments
         input:
@@ -91,17 +28,28 @@ class RestClient(object):
             'kind':kind
         }
 
-        return self.request("/api/v2/public/get_instruments", options)
+        response = self.call_api("get_instruments", "public", options)
+
+        if "result" in response:
+            return response["result"]
+        else:
+            return {}
+    
     
     def getportfoliomargin(self, curr, instrs):
         
         options = {
              'currency':curr, 
-             'simulated_positions': jsonparser.dumps(instrs),
-             'add_positions': False
+             'simulated_positions': json.dumps(instrs),
+             'add_positions': 'true'
         }
 
-        return self.request("/api/v2/public/get_portfolio_margins", options)
+        response = self.call_api("get_portfolio_margins", "private", options)
+
+        if "result" in response:
+            return response['result']
+        else:
+            return {}
     
 
     def getinstrument(self, instr):
@@ -109,7 +57,12 @@ class RestClient(object):
             'instrument_name': instr,
         }
 
-        return self.request("/api/v2/public/get_instrument", options)
+        response = self.call_api("get_instrument", "public", options)
+        if "result" in response:
+            return response["result"]
+        else:
+            return {}
+    
     
 
     def getindex(self, currency):
@@ -117,8 +70,11 @@ class RestClient(object):
             "currency":currency,
             }
 
-        response=self.request("/api/v2/public/get_index", options);
-        return response
+        response = self.call_api("get_index", "public", options)
+        if "result" in response:
+            return response["result"]
+        else:
+            return {}
     
     def getopenorders(self, currency, kind):
         '''
@@ -133,8 +89,8 @@ class RestClient(object):
             "kind": kind
             }
 
-        response=self.request("/api/v2/private/get_open_orders_by_currency", options);
-        return response
+        return self.call_api("get_open_orders_by_currency", "private", options);
+
 
     def getpositions(self, currency, kind):
         '''
@@ -150,8 +106,12 @@ class RestClient(object):
             "currency":currency,
             "kind": kind
             }
-        response=self.request("/api/v2/private/get_positions", options);
-        return response
+        response = self.call_api("get_positions", "private", options);
+
+        if "result" in response:
+            return response["result"]
+        else:
+            return []
     
 
     def buy(self, instrument, quantity, price, postOnly=None, time_in_force="fill_or_kill"):
@@ -165,7 +125,7 @@ class RestClient(object):
         if postOnly:
             options["postOnly"] = postOnly
 
-        return self.request("/api/v2/private/buy", options)
+        return self.call_api("buy", "private", options)
 
 
     def sell(self, instrument, quantity, price, postOnly=None, time_in_force="fill_or_kill"):
@@ -179,4 +139,4 @@ class RestClient(object):
         if postOnly:
             options["postOnly"] = postOnly
 
-        return self.request("/api/v2/private/sell", options)
+        return self.call_api("sell", "private", options)
